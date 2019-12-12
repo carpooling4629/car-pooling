@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+         <style>
+
+        table, th, td
+        {
+        border: 5px solid black;
+        border-collapse: collapse;
+        }
+        th, td {
+        padding: 5px;
+        text-align: left;
+        }
+
+
+    </style>
+
+</head>
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+<input type="date" name='lift_date' required>
+<input type="submit" name="submit">
+</form>
+{{message}}
+{% if users%}
+<table style="width:75%; margin-left:auto;margin-right:auto;margin-top:100px">
+        <tr><th><h1 style="text-align: center">Rollno</h1></th><th><h1 style="text-align: center">name</h1></th>
+        <th><h1 style="text-align: center">start location</h1></th>
+        <th><h1 style="text-align: center">destination</h1></th>
+        <th><h1 style="text-align: center">time</h1></th>
+        </tr>
+        {% for id,datas in users.items%}
+        <tr>
+            {%for data in datas%}<td>{{data}} {% endfor %}</td>
+            <td>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <button type="submit" value="{{id}}" name="cancel_request" >cancel</button>
+                </form>
+            </td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+{% endif %}
+
+</body>
+</html>

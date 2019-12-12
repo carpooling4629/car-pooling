@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>aa</title>
+</head>
+{% if 'userid' in request.session %}
+
+<body>
+
+<h1>
+    status:
+{{message}}
+    <a href="/car1/home/lift/">lift</a>
+    <a href="/car1/home/trip/">trip</a>
+    <a href="/car1/home/cancelTrip/">cancel trip</a>
+    <a href="/car1/signout">logout</a>
+</h1>
+
+</body>
+{% else %}
+<script>
+    alert("you have been logged out");
+</script>
+{% endif %}
+</html>

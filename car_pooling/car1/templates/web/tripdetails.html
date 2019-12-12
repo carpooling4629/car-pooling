@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Signup</title>
+</head>
+<body>
+WELCOME {{message}} !!!
+<br>
+<form action='' method="post">
+    {% csrf_token %}
+<input type="text" name="start_location">
+<input type="date" name="trip_date">
+<input type="time" name="start_time">
+<input type="text" name="destination">
+<input type="number" name="no_of_seats">
+ <input type="submit" name="submit">
+
+</form>
+</body>
+</html>

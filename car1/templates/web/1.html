@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lift view</title>
+
+     <style>
+* {
+  box-sizing: border-box;
+}
+
+
+#myTable {
+    margin-left: auto;
+    margin-right: auto;
+    border-collapse: collapse;
+  width: 80%;
+  border: 1px solid #ddd;
+  font-size: 18px;
+}
+
+#myTable th, #myTable td {
+  text-align: left;
+  padding: 12px;
+}
+
+#myTable tr {
+  border-bottom: 1px solid #ddd;
+}
+
+#myTable tr.header, #myTable tr:hover {
+  background-color: #f1f1f1;
+}
+</style>
+
+</head>
+
+<script>
+    function fun(abc) {
+        alert(abc.toString());
+
+    }
+</script>
+
+
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+<input type="date" name="lift_date" required>
+<input type="submit" name="submit">
+</form>
+{{message}}
+{% if users%}
+<table id="myTable" style="margin-top: 100px">
+        <tr class="header"><th>Rollno</th>
+            <th style="width:60%;">name</th>
+        <th style="width:60%;">gender</th>
+        <th style="width:60%;">start location</th>
+        <th style="width:60%;">destination</th>
+        <th style="width:60%;">time</th>
+        <th style="width:60%;">no of seats</th>
+            <th></th>
+        </tr>
+        {% for id,datas in users.items%}
+        <tr>
+            {%for data in datas%}<td>{{data}} {% endfor %}</td>
+            <td>
+                <form action="" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="rollno" value="{{datas.0}}">
+                    <input type="hidden" name="rollno" value="{{datas.3}}">
+                    <input type="hidden" name="rollno" value="{{datas.4}}">
+                    <button type="submit" value="{{id}}" name="request" onclick="checklocation(document.getElementById('start'))">request</button>
+                </form>
+            </td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+{% endif %}
+</body>
+</html>

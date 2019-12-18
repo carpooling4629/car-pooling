@@ -44,6 +44,7 @@
     function checklocation(data) {
        var values=data.split("+");
         var start= values[0];
+        var result=false;
         console.log(values[2]);
         console.log(start);
         var destination=values[1];
@@ -105,7 +106,7 @@ console.log(polyline.getPath().length);
             var mydest = new google.maps.LatLng(la1,lo1);
             var mystart = new google.maps.LatLng(la,lo);
             la1=lo1=lo=la=0;
-            var result=0;
+
             if(google.maps.geometry.poly.isLocationOnEdge(mystart, polyline, 10e-3) && google.maps.geometry.poly.isLocationOnEdge(mydest, polyline, 10e-3))
                 {
                 window.alert("registered");
@@ -114,29 +115,36 @@ console.log(polyline.getPath().length);
             else
                 {
                 window.alert("user route is not near to your start or destination location");
-                console.log("both");
+//                 console.log("both");
                 result=0;
+
                 }
-
-
         }
+    result= check(result,values[2]);
     });
-
-if (result==0)
-    return false;
-else
-    return true;
+    return result;
     }
 
+function check(result,id) {
+    var name="form"+id;
+    if (result == 1) {
+//        window.alert("true");
+        document.getElementById(name).submit();
+        return true;
+
+    }
+    else {
+//        window.alert("false");
+        document.forms[name].reset();
+        return false;
+    }
+
+
+}
 </script>
 
 
 <body>
-<form action="" method="post">
-    {% csrf_token %}
-<input type="date" name="lift_date" required>
-<input type="submit" name="submit">
-</form>
 {{message}}
 {% if users%}
 <table id="myTable" style="margin-top: 100px">
@@ -153,12 +161,13 @@ else
         <tr>
             {%for data in datas%}<td>{{data}} {% endfor %}</td>
             <td>
-                <form action="" method="post" onsubmit=" return checklocation(document.getElementById('{{id}}').value)">
+                <form action="" id="form{{id}}" method="post" onsubmit="return checklocation(document.getElementById('{{id}}').value);">
                     {% csrf_token %}
                     <input type="hidden" name="rollno" value="{{datas.0}}">
                     <input type="hidden" id="{{id}}" value="{{datas.3}}+{{datas.4}}+{{id}}">
 
-                    <button type="submit" value="{{id}}" name="request" >request</button>
+                    <input type="hidden" value="{{id}}" name="request" >
+                    <button type="submit" name="submit_request" >request</button>
                 </form>
             </td>
 

@@ -14,5 +14,6 @@ urlpatterns = [
     path(r'home/cancelTrip/',views.cancel_ride_request),
     path(r'firebase/', views.firebase1),
     path(r'home/cancelLift/',views.cancel_ride_request),
+    path(r'home/userList/',views.user_list),
     path(r'home/acceptTrip/',views.accept_lift_request)
 ]

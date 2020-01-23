@@ -1,295 +1,337 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <title>Bootstrap Example</title>
+  <title>Home</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-   <!--<script async defer-->
-              <!--src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr3FsJSwhLAESsr6vlzCdVWVMvnlQLhYw&callback=initMap">-->
-      <style>
- #map {
-        width: 100%;
-        height: 580px;
-        border:double;
-
- }
-
-.overlay {
-
-  height: 100%;
-  width: 100%;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  background-color: rgb(0,0,0);
-  background-color: rgba(0,0,0, 0.9);
-  overflow-y: hidden;
-  transition: 0.5s;
-  display:none;
-}
-
-.overlay-content {
-  position: relative;
-  top: 25%;
-  width: 100%;
-  text-align: center;
-  margin-top: 30px;
-}
-
-.overlay a {
-  padding: 8px;
-  text-decoration: none;
-  font-size: 36px;
-  color: #818181;
-  display: block;
-  transition: 0.3s;
-}
-
-.overlay a:hover, .overlay a:focus {
-  color: #f1f1f1;
-}
-
-.overlay .closebtn {
-  position: absolute;
-  top: 20px;
-  right: 45px;
-  font-size: 60px;
-}
-
-@media screen and (max-height: 450px) {
-  .overlay {overflow-y: auto;}
-  .overlay a {font-size: 20px}
-  .overlay .closebtn {
-  font-size: 40px;
-  top: 15px;
-  right: 35px;
-  }
-}
+  <style>
 
 
-    </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    #map {
+      width: 100%;
+      height: 580px;
+      border: double;
+
+    }
+
+    .overlay {
+
+      height: 100%;
+      width: 100%;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: rgb(0, 0, 0);
+      background-color: rgba(0, 0, 0, 0.9);
+      overflow-y: hidden;
+      transition: 0.5s;
+      display: none;
+    }
+
+    .overlay-content {
+      position: relative;
+      top: 25%;
+      width: 100%;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .overlay a {
+      padding: 8px;
+      text-decoration: none;
+      font-size: 36px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .overlay a:hover,
+    .overlay a:focus {
+      color: #f1f1f1;
+    }
+
+    .overlay .closebtn {
+      position: absolute;
+      top: 20px;
+      right: 45px;
+      font-size: 60px;
+    }
+
+    @media screen and (max-height: 450px) {
+      .overlay {
+        overflow-y: auto;
+      }
+
+      .overlay a {
+        font-size: 20px
+      }
+
+      .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+      }
+    }
+  </style>
 
 </head>
 
 <body>
-{% if message %}
-<script>window.alert("{{message}}")</script>
-{% endif %}
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header" style="margin-left:20px">
-      <h4 class="navbar-brand">G&D CORPORATE</h4>
-    </div>
+  {% if message %}
+  <script>window.alert("{{message}}")</script>
+  {% endif %}
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header" style="margin-left:20px">
+        <h4 class="navbar-brand">G&D CORPORATE</h4>
+      </div>
 
-    <ul class="nav navbar-nav" style="margin-top:10px;">
-      <li style="margin-top:auto;"><a href="/home">Home</a></li>
+      <ul class="nav navbar-nav" style="margin-top:10px;">
+        <li style="margin-top:auto;"><a href="/home">Home</a></li>
 
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Trip <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#" onclick="openNav(1)">TripDetails</a></li>
-          <li><a href="#" onclick="openNav(4)">Accept Trip</a></li>
-          <li><a href="#">Page 1-3</a></li>
-        </ul>
-      </li>
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Lift <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <li><a href="#" onclick="openNav(2)">LiftDetails</a></li>
-          <li><a href="#" onclick="openNav(3)">Cancel Lift Request</a></li>
-          <li><a href="#">Page 1-3</a></li>
-        </ul>
-      </li>
-    </ul>
-
-    <ul class="nav navbar-nav navbar-right">
-        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#" ><img style="border-radius:90%;height:38px;width:38px;" src="{{pic}}"/></a>
-          <ul class="dropdown-menu" style="background-color:grey;">
-              <li class="dropdown-item"><a href="/profile"> <span class="glyphicon glyphicon-user"></span>&emsp;<span style="color:black">Profile</span></a></li>
-              <li class="dropdown-item"><a href="/signout"><span class="glyphicon glyphicon-log-out"></span>&emsp;<span style="color:black">Logout</span></a></li>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Trip <span
+              class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#" onclick="openNav(1)">Trip Details</a></li>
+            <li><a href="#" onclick="openNav(4)">Accept Trip</a></li>
+            <li><a href="#">Page 1-3</a></li>
           </ul>
         </li>
-    </ul>
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Lift <span
+              class="caret"></span></a>
+          <ul class="dropdown-menu">
+            <li><a href="#" onclick="openNav(2)">LiftDetails</a></li>
+            <li><a href="#" onclick="openNav(3)">Cancel Lift Request</a></li>
+            <li><a href="#" onclick="openNav(5)">User List</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+
+<
+        <li class="dropdown">
+
+
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+
+
+
+
+
+            <img
+              style="border-radius:90%;height:38px;width:38px;" src="{{pic}}" /></a>
+          <ul class="dropdown-menu" style="background-color:grey;">
+            <li class="dropdown-item"><a href="/profile"> <span class="glyphicon glyphicon-user"></span>&emsp;<span
+                  style="color:black">Profile</span></a></li>
+            <li class="dropdown-item"><a href="/signout"><span class="glyphicon glyphicon-log-out"></span>&emsp;<span
+                  style="color:black">Logout</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+  <div class="container" style="width:100%;">
+    <script>
+      window.onload = function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          mapTypeControl: false,
+          center: { lat: -33.8688, lng: 151.2195 },
+          zoom: 13
+        });
+      };
+
+
+    </script>
+
+    <script
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr3FsJSwhLAESsr6vlzCdVWVMvnlQLhYw&libraries=places&callback"></script>
+
+    <script type="text/javascript">
+      function auto_complete(id) {
+        var input = document.getElementById(id);
+        new google.maps.places.Autocomplete(input);
+      }
+
+
+      function openNav(val) {
+
+        if (val == 1) {
+          document.getElementById("form2").style.display = "block";
+        }
+        else if (val == 3) {
+          document.getElementById("form4").style.display = "block";
+        }
+        else if (val == 4) {
+          document.getElementById("form5").style.display = "block";
+        }
+        else if (val == 5) {
+          document.getElementById("form1").style.display = "block";
+        }
+        else {
+          document.getElementById("form3").style.display = "block";
+        }
+        new AutocompleteDirectionsHandler(map);
+      }
+
+      function closeNav(val) {
+
+        if (val == 1) {
+          document.getElementById("form2").style.display = "none";
+        }
+
+        else if (val == 3) {
+          document.getElementById("form4").style.display = "none";
+        }
+
+        else if (val == 4) {
+          document.getElementById("form5").style.display = "none";
+        }
+        else if (val == 5) {
+          document.getElementById("form1").style.display = "block";
+        }
+        else {
+          document.getElementById("form3").style.display = "none";
+        }
+      }
+
+    </script>
+
+
+    <div id="form2" class="overlay">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav(1)">&times;</a>
+      <div class="overlay-content">
+        <form action="" method="post">
+          {% csrf_token %}}
+          <b style="color:white">Date</b><br> <input type="date" style="border-radius:8px" name="trip_date">
+          <br><br>
+
+          <b style="color:white">Time</b><br> <input type="time" style="border-radius:8px" name="start_time">
+          <br><br>
+
+          <b style="color:white">vehicle Number</b><br> <input type="text" style="border-radius:8px;"
+            name="vehicle_number">
+          <br><br>
+
+          <b style="color:white">Number of Seats</b><br> <input type="number" style="border-radius:8px;"
+            name="no_of_seats">
+          <br><br>
+
+          <b style="color:white">Start Location</b><br> <input type="text" style="border-radius:8px;" id="torigin-input"
+            name="start_location" oninput="auto_complete(this.id)">
+          <br><br>
+          <b style="color:white">Destination</b><br> <input type="text" style="border-radius:8px"
+            id="tdestination-input" name="destination" oninput="auto_complete(this.id)">
+          <br><br>
+
+          <input type="submit" class="btn btn-primary" value="Trip" name="trip_submit"
+            style="border-radius: 55px;width: 100px">
+        </form>
+
+      </div>
+    </div>
+
+
+
+    <div id="form3" class="overlay">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav(2)">&times;</a>
+      <div class="overlay-content">
+        <form action="" method="post">
+          {% csrf_token %}}
+          <b style="color:white">Date</b><br> <input type="date" style="border-radius:8px" name="lift_date">
+          <br><br>
+          <b style="color:white">Start Location</b><br> <input name="start_location" type="text"
+            style="border-radius:8px;" id="lorigin-input" oninput="auto_complete(this.id)">
+          <br><br>
+          <b style="color:white">Destination</b><br> <input type="text" name="destination" style="border-radius:8px"
+            id="ldestination-input" oninput="auto_complete(this.id)">
+          <br><br>
+          <input type="submit" class="btn btn-primary" value="Lift" name="lift_submit"
+            style="border-radius: 55px;width: 100px">
+        </form>
+      </div>
+    </div>
+
+
+
+    <div id="form4" class="overlay">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav(3)">&times;</a>
+      <div class="overlay-content">
+        <form action="cancelLift/" method="post">
+          {% csrf_token %}
+          <b style="color:white">Date</b><br> <input type="date" style="border-radius:8px" name="lift_date">
+          <br><br>
+
+          <input type="submit" class="btn btn-primary" value="Lift" name="submit"
+            style="border-radius: 55px;width: 100px">
+        </form>
+
+      </div>
+    </div>
+
+    <div id="form1" class="overlay">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav(5)">&times;</a>
+      <div class="overlay-content">
+        <form action="userList/" method="post">
+          {% csrf_token %}
+          <b style="color:white">Date</b><br> <input type="date" style="border-radius:8px" name="lift_date">
+          <br><br>
+
+          <input type="submit" class="btn btn-primary" value="Get" name="user_list_submit"
+            style="border-radius: 55px;width: 100px">
+        </form>
+
+      </div>
+    </div>
+
+
+    <div id="form5" class="overlay">
+      <a href="javascript:void(0)" class="closebtn" onclick="closeNav(4)">&times;</a>
+      <div class="overlay-content">
+        <form action="acceptTrip/" method="post">
+          {% csrf_token %}
+          <b style="color:white">Date</b><br> <input type="date" style="border-radius:8px" name="lift_date">
+          <br><br>
+
+          <input type="submit" class="btn btn-primary" value="Trip" name="submit"
+            style="border-radius: 55px;width: 100px">
+        </form>
+
+      </div>
+    </div>
+
+
+    <div id="map"></div>
+
+
   </div>
-</nav>
-
-
-<div class="container" style="width:100%;">
-<script>
-// This example requires the Places library. Include the libraries=places
-// parameter when you first load the API. For example:
-// <script
-// src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places">
-
-window.onload=function initMap() {
-  var map = new google.maps.Map(document.getElementById('map'), {
-    mapTypeControl: false,
-    center: {lat: -33.8688, lng: 151.2195},
-    zoom: 13
-  });
-};
-
-
-</script>
-
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr3FsJSwhLAESsr6vlzCdVWVMvnlQLhYw&libraries=places&callback"></script>
-
-<script type="text/javascript">
-  function auto_complete(id) {
-  var input = document.getElementById(id);
-  new google.maps.places.Autocomplete(input);
-}
-
-
-function openNav(val) {
-
-    if(val == 1)
-    {
-        document.getElementById("form2").style.display = "block";
-    }
-    else if(val == 3)
-    {
-        document.getElementById("form4").style.display = "block";
-    }
-    else if(val == 4)
-    {
-        document.getElementById("form5").style.display = "block";
-    }
-
-    else
-    {
-        document.getElementById("form3").style.display = "block";
-    }
-new AutocompleteDirectionsHandler(map);
-}
-
-function closeNav(val) {
-
- if(val == 1)
-    {
-        document.getElementById("form2").style.display = "none";
-    }
-
-    else if(val == 3)
-    {
-        document.getElementById("form4").style.display = "none";
-    }
-
-    else if(val == 4)
-    {
-        document.getElementById("form5").style.display = "none";
-    }
-
-    else
-    {
-        document.getElementById("form3").style.display = "none";
-    }
-}
-
-
-</script>
-
-
-<div id="form2" class="overlay">
-<a href="javascript:void(0)" class="closebtn" onclick="closeNav(1)">&times;</a>
-<div class="overlay-content">
-<form action="" method="post">
-{% csrf_token %}}
-  <b style="color:white">Date</b><br> <input type="date" style="border-radius:8px" name="trip_date">
-  <br><br>
-
-  <b style="color:white">Time</b><br> <input type="time" style="border-radius:8px" name="start_time">
-  <br><br>
-
-  <b style="color:white">vehicle Number</b><br> <input type="text" style="border-radius:8px;" name="vehicle_number">
-  <br><br>
-
-  <b style="color:white">Number of Seats</b><br> <input type="number" style="border-radius:8px;" name="no_of_seats">
-  <br><br>
-
-  <b style="color:white">Start Location</b><br> <input type="text"  style="border-radius:8px;" id="torigin-input" name="start_location" oninput="auto_complete(this.id)">
-  <br><br>
-  <b style="color:white">Destination</b><br> <input type="text" style="border-radius:8px" id="tdestination-input" name="destination" oninput="auto_complete(this.id)">
-  <br><br>
-
-    <input type="submit" class="btn btn-primary" value="Trip" name="trip_submit" style="border-radius: 55px;width: 100px">
-</form>
-
-</div>
-</div>
-
-
-
-
-
-
-<div id="form3" class="overlay">
-<a href="javascript:void(0)" class="closebtn" onclick="closeNav(2)">&times;</a>
-<div class="overlay-content">
-<form action="" method="post">
-{% csrf_token %}}
-  <b style="color:white">Date</b><br> <input type="date" style="border-radius:8px" name="lift_date">
-  <br><br>
-  <b style="color:white">Start Location</b><br> <input name="start_location" type="text" style="border-radius:8px;" id="lorigin-input" oninput="auto_complete(this.id)">
-  <br><br>
-  <b style="color:white">Destination</b><br> <input type="text" name="destination" style="border-radius:8px" id="ldestination-input" oninput="auto_complete(this.id)">
-  <br><br>
-
-    <input type="submit" class="btn btn-primary" value="Lift" name="lift_submit" style="border-radius: 55px;width: 100px">
-</form>
-
-</div>
-</div>
-
-
-
-<div id="form4" class="overlay">
-<a href="javascript:void(0)" class="closebtn" onclick="closeNav(3)">&times;</a>
-<div class="overlay-content">
-<form action="cancelLift/" method="post">
-{% csrf_token %}
-  <b style="color:white">Date</b><br> <input type="date" style="border-radius:8px" name="lift_date">
-  <br><br>
-
-    <input type="submit" class="btn btn-primary" value="Lift" name="submit" style="border-radius: 55px;width: 100px">
-</form>
-
-</div>
-</div>
-
-
-
-
-
-<div id="form5" class="overlay">
-<a href="javascript:void(0)" class="closebtn" onclick="closeNav(4)">&times;</a>
-<div class="overlay-content">
-<form action="acceptTrip/" method="post">
-{% csrf_token %}
-  <b style="color:white">Date</b><br> <input type="date" style="border-radius:8px" name="lift_date">
-  <br><br>
-
-    <input type="submit" class="btn btn-primary" value="Trip" name="submit" style="border-radius: 55px;width: 100px">
-</form>
-
-</div>
-</div>
-
-
-
-
-
-<!-- MAP HOLDER -->
-<div id="map"></div>
-<!-- REFERENCES -->
-
-
-
-</div>
 
 </body>
 

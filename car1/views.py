@@ -1,12 +1,8 @@
 from django.core.files.storage import FileSystemStorage
-from django.http import HttpResponse
 from django.shortcuts import render
 from django.shortcuts import redirect
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.cache import cache_control
 import pyrebase
 from django.contrib import auth
-from django.core.cache import cache
 
 firebaseConfig = {
     "apiKey": "AIzaSyADhXzPY5vHvpngz2A1ajYgLAnTuvFbUHs",
@@ -42,16 +38,16 @@ def home(request):
                         data = {"destination":destination,"start":start_location,"time":start_time,"date":trip_date,"seats":int(no_of_seats),"vehicle_number":vehicle_number}
                         database.child("TripDatabase").child(trip_date).child(request.session['rollno']).push(data)
                         print("if")
-                        return render(request, 'web/tripdetails.html', {"message": "Trip added successfully","pic":url})
                     else:
                         print("else")
-                        return render(request,'web/tripdetails.html',{"message":"You have requested for lift ","pic":url})
+                        return render(request,'web/2.html',{"message":"You have requested for lift ","pic":url})
                 except Exception as e:
                     # return render(request,'web/signup.html',{"message":"Error Occured"})
                     print(e)
                 print("out")
-                return render(request,'web/tripdetails.html',{"pic":url})
+                return render(request, 'web/2.html', {"message": "submitted ", "pic": url})
 
+                # return render(request, 'web/2.html', {"message": "", "pic": url})
 
 
             if (request.POST.get('lift_submit')):
@@ -99,6 +95,9 @@ def home(request):
                         return render(request, 'web/2.html', {"message": "No user exists","pic":url})
                 else:
                     return render(request, 'web/2.html', {"message": "You have registered for lift provider","pic":url})
+
+
+
             if (request.POST.get('request')):
                 request_rollno=request.POST.get('rollno')
                 print(request_rollno)
@@ -109,6 +108,7 @@ def home(request):
                 print(rno)
                 try:
                     if database.child("TripDatabase").child(request.session['lift_date']).child(request_rollno).child(request_id).child("request_list").child(rno[1]).get().val() or database.child("TripDatabase").child(request.session['lift_date']).child(request_rollno).child(request_id).child("lift_takers").child(rno[1]).get().val():
+                        print("same")
                         return render(request, 'web/2.html',{"message":"Already Requested","pic":url})
                     else:
                         data = {"status":0,"trip_provider":request_rollno,"ref_id":request_id,"start_location":request.session['start_location'],"destination":request.session['destination']}
@@ -125,8 +125,19 @@ def home(request):
                 except Exception as e:
                     #return render(request,'web/lift_view.html',{"message":"Error Occured"})
                     print(e)
-
+                    return render(request, 'web/2.html', {"message": "requested","pic":url})
                 print(request_id)
+
+            if (request.POST.get('submit_track')):
+                data=request.POST.get('request')
+                values=data.split('+')
+                lat=database.child("TripDatabase").child(request.session['lift_date']).child(values[0]).child(
+                    values[1]).child('lat').get().val()
+                lon = database.child("TripDatabase").child(request.session['lift_date']).child(values[0]).child(
+                    values[1]).child('lon').get().val()
+                return render(request,'track.html',{"lat":lat,"lon":lon})
+
+
         return render(request, 'web/2.html', {"message": request.session['mail'],"pic":url})
     return redirect("/")
 
@@ -142,6 +153,7 @@ def signin(request):
                 user=authen.sign_in_with_email_and_password(email,pwd)
                 #auth.login(request, user)
             except Exception as e:
+                print(e)
                 return render(request, 'web/login.html', {"message": "invalid credentials"})
             request.session['mail']=email
             sep = email.split("@")
@@ -252,7 +264,7 @@ def update(request):
         user.append(database.child("UserDetails").child(rollno).child("address").get().val())
         return render(request,'web/update_profile.html',{"user":user,"pic":url})
     return redirect('/')
-#
+
 # def trip(request):
 #     if 'mail' in request.session:
 #         if request.method == 'POST':
@@ -405,13 +417,13 @@ def cancel_ride_request(request):
                     if database.child("TripDatabase").child(request.session['lift_cancel_date']).child(trip_provider).child(trip_ref_id).child("lift_takers").child(rno[1]).get().val():
                         database.child("TripDatabase").child(request.session['lift_cancel_date']).child(
                             trip_provider).child(trip_ref_id).child("lift_takers").child(rno[1]).remove()
-                    return render(request, 'web/trip_booking_details.html', {"message": "Cancelled the Request","pic":url})
-
+                    #return render(request, 'web/2.html', {"message": "Cancelled the Request","pic":url})
+                    return redirect(request,'/home')
                 except Exception as e:
                     # return render(request,'web/signup.html',{"message":"Error Occured"})
                     print(e)
 
-        return render(request, 'web/trip_booking_details.html')
+        return redirect('/home')
     return redirect("/")
 
 
@@ -439,6 +451,7 @@ def accept_lift_request(request):
                                 user.append(database.child("UserDetails").child(j).child("name").get().val())
                                 user.append(database.child("UserDetails").child(j).child("gender").get().val())
                                 user.append(database.child("UserDetails").child(j).child("department").get().val())
+                                user.append(database.child("LiftDatabase").child(lift_date).child(j).child(rid).child("start_location").get().val())
                                 user.append(database.child("LiftDatabase").child(lift_date).child(j).child(rid).child("destination").get().val())
                                 user.append(database.child("TripDatabase").child(lift_date).child(rno[1]).child(i).child("time").get().val())
                             users[i]=user
@@ -458,7 +471,7 @@ def accept_lift_request(request):
                         rid).child("seats").get().val()) > 0 and database.child("LiftDatabase").child(
                         request.session['lift_date']).child(rollno).child(
                         database.child("TripDatabase").child(request.session['lift_date']).child(rno[1]).child(
-                            rid).child("request_list").child(rollno).get().val()).child("status").get().val() != 1:
+                        -    rid).child("request_list").child(rollno).get().val()).child("status").get().val() != 1:
 
                     req_rid=database.child("TripDatabase").child(request.session['lift_date']).child(rno[1]).child(rid).child("request_list").child(rollno).get().val()
                     database.child("TripDatabase").child(request.session['lift_date']).child(rno[1]).child(rid).child("lift_takers").child(rollno).set(req_rid)
@@ -486,7 +499,7 @@ def accept_lift_request(request):
                 database.child("TripDatabase").child(request.session['lift_date']).child(rno[1]).child(rid).child("request_list").child(rollno).remove()
                 return render(request, 'web/lift_accepting_list.html',
                               {"message": "declined the request"})
-        return render(request,'web/lift_accepting_list.html')
+        return redirect('/home')
 
     return  redirect("/")
 
@@ -513,9 +526,9 @@ def display_profile(request):
 
                 pic =request.FILES['image']
                 fs = FileSystemStorage()
-                filename = fs.save("static\\"+pic.name, pic)
+                filename = fs.save(pic.name, pic)
 
-                uploaded_file_url = fs.url("static\\"+filename)
+                uploaded_file_url = fs.url(filename)
                 print(uploaded_file_url)
                 token=storage.child(request.session['rollno']).put(filename)
                 # data = {"photo": url}
@@ -536,4 +549,66 @@ def display_profile(request):
         user.append(database.child("UserDetails").child(rollno).child("phone_number").get().val())
         print(url)
         return render(request, "web/profile.html", {"user": user,"pic":url})
+    return redirect('/')
+
+
+
+
+
+def user_list(request):
+    if 'mail' in request.session:
+        if request.method == 'POST':
+            if (request.POST.get('user_list_submit')):
+
+                lift_date = request.POST.get('lift_date')
+                request.session['lift_date']=lift_date
+                url=database.child("UserDetails").child(request.session['rollno']).child("url").get().val()
+                if database.child("LiftDatabase").child(lift_date).get().val():
+                    if database.child("LiftDatabase").child(lift_date).child(request.session['rollno']).get().val():
+                        users = {}
+                        for i in database.child("LiftDatabase").child(lift_date).child(request.session['rollno']).get().val():
+                            if database.child("LiftDatabase").child(lift_date).child(request.session['rollno']).child(i).child('status').get().val()==1:
+                                user = []
+                                trip_provider=database.child("LiftDatabase").child(lift_date).child(request.session['rollno']).child(i).child('trip_provider').get().val()
+                                ref_id=database.child("LiftDatabase").child(lift_date).child(request.session['rollno']).child(i).child('ref_id').get().val()
+                                user.append(trip_provider)
+                                user.append(database.child("UserDetails").child(trip_provider).child("name").get().val())
+                                user.append(database.child("UserDetails").child(trip_provider).child("gender").get().val())
+
+                                user.append(
+                                    database.child("TripDatabase").child(lift_date).child(trip_provider).child(ref_id).child(
+                                        "start").get().val())
+                                user.append(database.child("TripDatabase").child(lift_date).child(trip_provider).child(ref_id).child(
+                                    "destination").get().val())
+                                user.append(
+                                    database.child("TripDatabase").child(lift_date).child(trip_provider).child(ref_id).child(
+                                        "time").get().val())
+                                users[ref_id] = user
+
+                        return render(request, 'web/providers_list.html', {"users": users,"pic":url})
+                    else:
+                        return render(request, 'web/2.html', {"message": "No user exists","pic":url})
+                else:
+                    return render(request,'providers_list.html',{"message","no requested any ride on the specified date"})
+
+            if (request.POST.get('submit_track')):
+
+
+                firebaseConfig1 = {
+                    "apiKey": "AIzaSyBvYy92lzJ7CtI7vdCqHjO5zrQJB0_Gp3I",
+                    "authDomain": "live-tracking-b8bfb.firebaseapp.com",
+                    "databaseURL": "https://live-tracking-b8bfb.firebaseio.com",
+                    "projectId": "live-tracking-b8bfb",
+                    "storageBucket": "live-tracking-b8bfb.appspot.com",
+                    "messagingSenderId": "203218377661",
+                    "appId": "1:203218377661:web:16adc99f0ea968cf6750d4",
+                    "measurementId": "G-BEV51G020G"
+                };
+
+                firebase1 = pyrebase.initialize_app(firebaseConfig1)
+                database1 = firebase1.database()
+                print("track")
+                provider_rollno=request.POST.get('request_data')
+                return render(request,'web/track.html',{"rollno":provider_rollno})
+        return redirect('/home')
     return redirect('/')

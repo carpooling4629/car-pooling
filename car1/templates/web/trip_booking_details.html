@@ -1,50 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-         <style>
-        table, th, td
-        {
-        border: 5px solid black;
-        border-collapse: collapse;
-        }
-        th, td {
-        padding: 5px;
-        text-align: left;
-        }
-    </style>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <title>Trip_Details</title>
+  <style>
+    table,
+    th,
+    td {
+      border: 5px solid black;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 5px;
+      text-align: left;
+    }
+  </style>
 
 </head>
+
 <body>
-<form action="" method="post">
-    {% csrf_token %}
-<input type="date" name='lift_date' required>
-<input type="submit" name="submit">
-</form>
-{{message}}
-{% if users%}
-<table style="width:75%; margin-left:auto;margin-right:auto;margin-top:100px">
-        <tr><th><h1 style="text-align: center">Rollno</h1></th><th><h1 style="text-align: center">name</h1></th>
-        <th><h1 style="text-align: center">start location</h1></th>
-        <th><h1 style="text-align: center">destination</h1></th>
-        <th><h1 style="text-align: center">time</h1></th>
-        </tr>
-        {% for id,datas in users.items%}
-        <tr>
-            {%for data in datas%}<td>{{data}} {% endfor %}</td>
-            <td>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <button type="submit" value="{{id}}" name="cancel_request" >cancel</button>
-                </form>
-            </td>
 
-        </tr>
-        {% endfor %}
 
-    </table>
-{% endif %}
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header" style="margin-left:20px">
+        <h4 class="navbar-brand">G&D CORPORATE</h4>
+      </div>
+
+      <ul class="nav navbar-nav" style="margin-top:10px;">
+        <li style="margin-top:auto;"><a href="/home">Home</a></li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img
+              style="border-radius:90%;height:38px;width:38px;" src="{{pic}}" /></a>
+          <ul class="dropdown-menu" style="background-color:grey;">
+            <li class="dropdown-item"><a href="/profile"> <span class="glyphicon glyphicon-user"></span>&emsp;<span
+                  style="color:black">Profile</span></a></li>
+            <li class="dropdown-item"><a href="/signout"><span class="glyphicon glyphicon-log-out"></span>&emsp;<span
+                  style="color:black">Logout</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+
+
+
+
+
+  <!--<form action="" method="post">-->
+  <!--{% csrf_token %}-->
+  <!--<input type="date" name='lift_date' required>-->
+  <!--<input type="submit" name="submit">-->
+  <!--</form>-->
+  {{message}}
+  {% if users%}
+  <table style="width:75%; margin-left:auto;margin-right:auto;margin-top:100px">
+    <tr>
+      <th>
+        <h1 style="text-align: center">Rollno</h1>
+      </th>
+      <th>
+        <h1 style="text-align: center">name</h1>
+      </th>
+      <th>
+        <h1 style="text-align: center">start location</h1>
+      </th>
+      <th>
+        <h1 style="text-align: center">destination</h1>
+      </th>
+      <th>
+        <h1 style="text-align: center">time</h1>
+      </th>
+    </tr>
+    {% for id,datas in users.items%}
+    <tr>
+      {%for data in datas%}<td>{{data}} {% endfor %}</td>
+      <td>
+        <form action="" method="post">
+          {% csrf_token %}
+          <button type="submit" value="{{id}}" name="cancel_request">cancel</button>
+        </form>
+      </td>
+
+    </tr>
+    {% endfor %}
+
+  </table>
+  {% endif %}
 
 </body>
+
 </html>

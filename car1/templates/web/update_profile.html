@@ -1,164 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
-<title>Bootstrap Simple Login Form with Blue Background</title>
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<style type="text/css">
-	body{
-		color: #fff;
-		background: white;
-		font-family: 'Roboto', sans-serif;
-	}
-    .form-control{
-		height: 41px;
-		background: #f2f2f2;
-		box-shadow: none !important;
-		border: none;
-	}
-	.form-control:focus{
-		background: #e2e2e2;
-	}
-    .form-control, .btn{
-        border-radius: 3px;
-    }
-	.signup-form{
-		width: 490px;
-		margin: 30px auto;
-	}
-	.signup-form form{
-		color: #999;
-		border-radius: 23px;
-    	margin-bottom: 15px;
-        background: #fff;
-        box-shadow: 0px 10px 10px rgba(2, 0, 2, 0.3);
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+	<title>Update_Profile</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<style type="text/css">
+		body {
+			color: #fff;
+			background: white;
+			font-family: 'Roboto', sans-serif;
+		}
 
-        padding: 30px;
-    }
-	.signup-form h2 {
-		color: #333;
-		font-weight: bold;
-        margin-top: 0;
-    }
-    .signup-form hr {
-        margin: 0 -30px 20px;
-    }
-	.signup-form .form-group{
-		margin-bottom: 20px;
-	}
-	.signup-form input[type="checkbox"]{
-		margin-top: 3px;
-	}
-	.signup-form .row div:first-child{
-		padding-right: 10px;
-	}
-	.signup-form .row div:last-child{
-		padding-left: 10px;
-	}
-    .signup-form .btn{
-        font-size: 16px;
-        font-weight: bold;
-		background: #3598dc;
-		border: none;
-		min-width: 140px;
-    }
-	.signup-form .btn:hover, .signup-form .btn:focus{
-		background: #2389cd !important;
-        outline: none;
-	}
-    .signup-form a{
-		color: #fff;
-		text-decoration: underline;
-	}
-	.signup-form a:hover{
-		text-decoration: none;
-	}
-	.signup-form form a{
-		color: #3598dc;
-		text-decoration: none;
-	}
-	.signup-form form a:hover{
-		text-decoration: underline;
-	}
-    .signup-form .hint-text {
-		padding-bottom: 15px;
-		text-align: center;
-    }
-</style>
+		.form-control {
+			height: 41px;
+			background: #f2f2f2;
+			box-shadow: none !important;
+			border: none;
+		}
+
+		.form-control:focus {
+			background: #e2e2e2;
+		}
+
+		.form-control,
+		.btn {
+			border-radius: 3px;
+		}
+
+		.signup-form {
+			width: 490px;
+			margin: 30px auto;
+		}
+
+		.signup-form form {
+			color: #999;
+			border-radius: 23px;
+			margin-bottom: 15px;
+			background: #fff;
+			box-shadow: 0px 10px 10px rgba(2, 0, 2, 0.3);
+
+			padding: 30px;
+		}
+
+		.signup-form h2 {
+			color: #333;
+			font-weight: bold;
+			margin-top: 0;
+		}
+
+		.signup-form hr {
+			margin: 0 -30px 20px;
+		}
+
+		.signup-form .form-group {
+			margin-bottom: 20px;
+		}
+
+		.signup-form input[type="checkbox"] {
+			margin-top: 3px;
+		}
+
+		.signup-form .row div:first-child {
+			padding-right: 10px;
+		}
+
+		.signup-form .row div:last-child {
+			padding-left: 10px;
+		}
+
+		.signup-form .btn {
+			font-size: 16px;
+			font-weight: bold;
+			background: #3598dc;
+			border: none;
+			min-width: 140px;
+		}
+
+		.signup-form .btn:hover,
+		.signup-form .btn:focus {
+			background: #2389cd !important;
+			outline: none;
+		}
+
+		.signup-form a {
+			color: #fff;
+			text-decoration: underline;
+		}
+
+		.signup-form a:hover {
+			text-decoration: none;
+		}
+
+		.signup-form form a {
+			color: #3598dc;
+			text-decoration: none;
+		}
+
+		.signup-form form a:hover {
+			text-decoration: underline;
+		}
+
+		.signup-form .hint-text {
+			padding-bottom: 15px;
+			text-align: center;
+		}
+	</style>
 </head>
+
 <body onload="abc()">
-<script>
-    function abc() {
-        var data = "{{user.6|safe}}";
-        document.getElementById('address').value = data;
-        //console.log(data);
-    }
-</script>
-<div class="signup-form">
-    <form action="" method="post" onload="abc()">
-        {% csrf_token %}
-        <h2 style="text-align: center; color: black">Update</h2>
-		<hr>
-        <div class="form-group">
-			<div class="row">
-				<div class="col-xs-6"><input type="text" class="form-control" name="name" placeholder="Name" required="required" value="{{user.0}}"></div>
-            </div>
+	<script>
+		function abc() {
+			var data = "{{user.6|safe}}";
+			document.getElementById('address').value = data;
+			//console.log(data);
+		}
+	</script>
+	<div class="signup-form">
+		<form action="" method="post" onload="abc()">
+			{% csrf_token %}
+			<h2 style="text-align: center; color: black">Update</h2>
+			<hr>
+			<div class="form-group">
+				<div class="row">
+					<div><input type="text" class="form-control" name="name" placeholder="Name" required="required"
+							value="{{user.0}}"></div>
+				</div>
 
-        </div>
-
-        <div class="form-group">
-            <div class="row">
-                <div class="col-xs-6"><input type="number" class="form-control" name="rollno" placeholder="Roll Number" required="required" value="{{user.1}}" readonly="readonly"></div>
-				<div class="col-xs-6"><input type="text" class="form-control" name="department" placeholder="Course" required="required" value="{{user.3}}"></div>
 			</div>
-        </div>
 
-        <div class="form-group">
+			<div class="form-group">
+				<div class="row">
+					<div class="col-xs-6"><input type="number" class="form-control" name="rollno"
+							placeholder="Roll Number" required="required" value="{{user.1}}" readonly="readonly"></div>
+					<div class="col-xs-6"><input type="text" class="form-control" name="department" placeholder="Course"
+							required="required" value="{{user.3}}"></div>
+				</div>
+			</div>
 
-            <div >
-               <input type="text" name="gender" class="form-control" value="{{user.2}}"></div>
-        </div>
+			<div class="form-group">
 
-
-         <div class="form-group">
-        	<input type="number" class="form-control" name="phoneno" placeholder="Mobile Number" required="required" value="{{user.4}}">
-        </div>
-
-
-        <div class="form-group">
-        	<input type="email" class="form-control" name="mailid" placeholder="Email" required="required" readonly="readonly" value="{{user.5}}">
-        </div>
-
-        <div class="form-group">
-            <textarea name="address" class="form-control" placeholder="Address" id="address"></textarea>
-		</div>
+				<div>
+					<input type="text" name="gender" class="form-control" placeholder="Gender" value="{{user.2}}"></div>
+			</div>
 
 
-		<!--<div class="form-group">-->
-            <!--<div class="row">-->
-                <!--<div  class="col-xs-6"> <input type="password" class="form-control" name="password" placeholder="Password" required="required"></div>-->
-                <!--<div  class="col-xs-6"> <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required="required"> </div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <input type="hidden" name="pic" value="{{pic}}">
-		<div class="form-group" style="text-align: center" >
-            <button type="submit" class="btn btn-primary btn-lg" name="submit" value="submit">Update</button>
-        </div>
-
-        {% if message is "Updated Successfully" %}
-         <p ><center><b style="color: green">{{message}}</b></center></p>
-       {% else %}
-       <p ><center><b style="color: red">{{message}}</b></center></p>
-         {% endif %}
-    </form>
+			<div class="form-group">
+				<input type="number" class="form-control" name="phoneno" placeholder="Mobile Number" required="required"
+					value="{{user.4}}">
+			</div>
 
 
-    <div class="hint-text" style="color: #2f2f2f"><a href="/" style="color: #2f2f2f">G&D Corporate</a></div>
-</div>
+			<div class="form-group">
+				<input type="email" class="form-control" name="mailid" placeholder="Email" required="required"
+					readonly="readonly" value="{{user.5}}">
+			</div>
+
+			<div class="form-group">
+				<textarea name="address" class="form-control" placeholder="Address" id="address"></textarea>
+			</div>
+
+
+			<!--<div class="form-group">-->
+			<!--<div class="row">-->
+			<!--<div  class="col-xs-6"> <input type="password" class="form-control" name="password" placeholder="Password" required="required"></div>-->
+			<!--<div  class="col-xs-6"> <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required="required"> </div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<input type="hidden" name="pic" value="{{pic}}">
+			<div class="form-group" style="text-align: center">
+				<button type="submit" class="btn btn-primary btn-lg" name="submit" value="submit">Update</button>
+			</div>
+
+			{% if message is "Updated Successfully" %}
+			<p>
+				<center><b style="color: green">{{message}}</b></center>
+			</p>
+			{% else %}
+			<p>
+				<center><b style="color: red">{{message}}</b></center>
+			</p>
+			{% endif %}
+		</form>
+
+
+		<div class="hint-text" style="color: #2f2f2f"><a href="/home" style="color: #2f2f2f">G&D Corporate</a></div>
+	</div>
 </body>
+
 </html>

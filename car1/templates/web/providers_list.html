@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <title>Lift view</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+
+        #myTable {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+            width: 80%;
+            border: 1px solid #ddd;
+            font-size: 18px;
+        }
+
+        #myTable th,
+        #myTable td {
+            text-align: left;
+            padding: 12px;
+        }
+
+        #myTable tr {
+            border-bottom: 1px solid #ddd;
+        }
+
+        #myTable tr.header,
+        #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
+
+</head>
+
+
+<body>
+
+
+
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header" style="margin-left:20px">
+                <h4 class="navbar-brand">G&D CORPORATE</h4>
+            </div>
+
+            <ul class="nav navbar-nav" style="margin-top:10px;">
+                <li style="margin-top:auto;"><a href="/home">Home</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img
+                            style="border-radius:90%;height:38px;width:38px;" src="{{pic}}" /></a>
+                    <ul class="dropdown-menu" style="background-color:grey;">
+                        <li class="dropdown-item"><a href="/profile"> <span
+                                    class="glyphicon glyphicon-user"></span>&emsp;<span
+                                    style="color:black">Profile</span></a></li>
+                        <li class="dropdown-item"><a href="/signout"><span
+                                    class="glyphicon glyphicon-log-out"></span>&emsp;<span
+                                    style="color:black">Logout</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    {{message}}
+    {% if users%}
+    <table id="myTable" style="margin-top: 100px">
+        <tr class="header">
+            <th>Rollno</th>
+            <th style="width:60%;">name</th>
+            <th style="width:60%;">gender</th>
+            <th style="width:60%;">start location</th>
+            <th style="width:60%;">destination</th>
+            <th style="width:60%;">time</th>
+
+            <th></th>
+        </tr>
+        {% for id,datas in users.items%}
+        <tr>
+            {%for data in datas%}<td>{{data}} {% endfor %}</td>
+            <td>
+                <form action="" method="post" >
+                    {% csrf_token %}
+                    <input type="hidden" value="{{datas.0}}" name="request_data">
+                    <input type="submit" name="submit_track" value="Track"></form>
+            </td>
+
+        </tr>
+        {% endfor %}
+
+    </table>
+    {% endif %}
+</body>
+
+</html>

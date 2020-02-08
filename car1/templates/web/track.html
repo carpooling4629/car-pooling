@@ -52,9 +52,8 @@
           center: center,
           zoom: 20
         });
-marker = new google.maps.Marker({position: center, map: map});
+marker = new google.maps.Marker({position: center, map: map,animation: google.maps.Animation.DROP,icon:"https://img.icons8.com/nolan/50/filled-circle.png"});
       }
-       db.on('child_changed', function () {
         var lat,lng;
         var ret = db.on('value', function(snapshot) {
             var a = snapshot.val();
@@ -64,9 +63,9 @@ marker = new google.maps.Marker({position: center, map: map});
           marker.setMap(map);
           marker.setPosition(center);
           map.setCenter(marker.getPosition());
+          map.setZoom(20);
         });
 
-            });
 
     </script>
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr3FsJSwhLAESsr6vlzCdVWVMvnlQLhYw&libraries=drawing&callback=initMap"

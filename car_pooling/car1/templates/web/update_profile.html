@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-	<title>Signup</title>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+	<title>Update_Profile</title>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -34,7 +34,7 @@
 		}
 
 		.signup-form {
-			width: 450px;
+			width: 490px;
 			margin: 30px auto;
 		}
 
@@ -113,19 +113,23 @@
 	</style>
 </head>
 
-<body>
-<div class="container">
+<body onload="abc()">
+	<script>
+		function abc() {
+			var data = "{{user.6|safe}}";
+			document.getElementById('address').value = data;
+			//console.log(data);
+		}
+	</script>
 	<div class="signup-form">
-		<form action="" method="post">
+		<form action="" method="post" onload="abc()">
 			{% csrf_token %}
-			<h2 style="text-align: center; color: black">Sign Up</h2>
+			<h2 style="text-align: center; color: black">Update</h2>
 			<hr>
 			<div class="form-group">
 				<div class="row">
-					<div class="col-xs-6"><input type="text" class="form-control" name="fname" placeholder="First Name"
-							required="required"></div>
-					<div class="col-xs-6"><input type="text" class="form-control" name="lname" placeholder="Last Name"
-							required="required"></div>
+					<div><input type="text" class="form-control" name="name" placeholder="Name" required="required"
+							value="{{user.0}}"></div>
 				</div>
 
 			</div>
@@ -133,50 +137,47 @@
 			<div class="form-group">
 				<div class="row">
 					<div class="col-xs-6"><input type="number" class="form-control" name="rollno"
-							placeholder="Roll Number" required="required"></div>
+							placeholder="Roll Number" required="required" value="{{user.1}}" readonly="readonly"></div>
 					<div class="col-xs-6"><input type="text" class="form-control" name="department" placeholder="Course"
-							required="required"></div>
+							required="required" value="{{user.3}}"></div>
 				</div>
 			</div>
 
 			<div class="form-group">
 
 				<div>
-					<select name="gender" class="form-control">
-						<option value="male" class="form-control">Male</option>
-						<option value="female" class="form-control">Female</option>
-						<option value="gender" class="form-control" selected disabled hidden>Gender</option>
-					</select></div>
+					<input type="text" name="gender" class="form-control" placeholder="Gender" value="{{user.2}}"></div>
 			</div>
 
 
 			<div class="form-group">
-				<input type="number" class="form-control" name="phoneno" placeholder="Mobile Number"
-					required="required">
+				<input type="number" class="form-control" name="phoneno" placeholder="Mobile Number" required="required"
+					value="{{user.4}}">
 			</div>
 
 
 			<div class="form-group">
-				<textarea name="address" class="form-control" placeholder="Address"></textarea>
+				<input type="email" class="form-control" name="mailid" placeholder="Email" required="required"
+					readonly="readonly" value="{{user.5}}">
 			</div>
 
 			<div class="form-group">
-				<input type="email" class="form-control" name="mailid" placeholder="Email" required="required">
+				<textarea name="address" class="form-control" placeholder="Address" id="address"></textarea>
 			</div>
 
-			<div class="form-group">
-				<div class="row">
-					<div class="col-xs-6"> <input type="password" class="form-control" name="password"
-							placeholder="Password" required="required"></div>
-					<div class="col-xs-6"> <input type="password" class="form-control" name="password2"
-							placeholder="Confirm Password" required="required"> </div>
-				</div>
-			</div>
 
+			<!--<div class="form-group">-->
+			<!--<div class="row">-->
+			<!--<div  class="col-xs-6"> <input type="password" class="form-control" name="password" placeholder="Password" required="required"></div>-->
+			<!--<div  class="col-xs-6"> <input type="password" class="form-control" name="password2" placeholder="Confirm Password" required="required"> </div>-->
+			<!--</div>-->
+			<!--</div>-->
+			<input type="hidden" name="pic" value="{{pic}}">
 			<div class="form-group" style="text-align: center">
-				<button type="submit" class="btn btn-primary btn-lg" name="submit" value="submit">Sign Up</button>
+				<button type="submit" class="btn btn-primary btn-lg" name="submit" value="submit">Update</button>
 			</div>
-			{% if message is "Registered Successfully" %}
+
+			{% if message is "Updated Successfully" %}
 			<p>
 				<center><b style="color: green">{{message}}</b></center>
 			</p>
@@ -187,9 +188,9 @@
 			{% endif %}
 		</form>
 
-		<div class="hint-text" style="color: #2f2f2f"><a href="/" style="color: #2f2f2f">G&D Corporate</a></div>
+
+		<div class="hint-text" style="color: #2f2f2f"><a href="/home" style="color: #2f2f2f">G&D Corporate</a></div>
 	</div>
-</div>
 </body>
 
 </html>

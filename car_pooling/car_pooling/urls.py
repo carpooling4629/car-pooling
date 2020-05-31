@@ -4,7 +4,7 @@ from django.conf import settings
 
 urlpatterns = [
 path('admin/', admin.site.urls),
-path('car1/', include('car1.urls'))
+path('', include('car1.urls'))
 
 
 ]

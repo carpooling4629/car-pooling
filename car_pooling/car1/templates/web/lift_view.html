@@ -1,74 +1,222 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <title>Lift view</title>
 
-     <style>
-* {
-  box-sizing: border-box;
-}
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
 
-#myTable {
-    margin-left: auto;
-    margin-right: auto;
-    border-collapse: collapse;
-  width: 80%;
-  border: 1px solid #ddd;
-  font-size: 18px;
-}
+        #myTable {
+            margin-left: auto;
+            margin-right: auto;
+            border-collapse: collapse;
+            width: 80%;
+            border: 1px solid #ddd;
+            font-size: 18px;
+        }
 
-#myTable th, #myTable td {
-  text-align: left;
-  padding: 12px;
-}
+        #myTable th,
+        #myTable td {
+            text-align: left;
+            padding: 12px;
+        }
 
-#myTable tr {
-  border-bottom: 1px solid #ddd;
-}
+        #myTable tr {
+            border-bottom: 1px solid #ddd;
+        }
 
-#myTable tr.header, #myTable tr:hover {
-  background-color: #f1f1f1;
-}
-</style>
+        #myTable tr.header,
+        #myTable tr:hover {
+            background-color: #f1f1f1;
+        }
+    </style>
 
 </head>
-
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBr3FsJSwhLAESsr6vlzCdVWVMvnlQLhYw&libraries=places&geometry&poly&callback=initMap"
+    async defer></script>
 <script>
-    function fun(abc) {
-        alert(abc.toString());
+    var l_start = "{{start}}";
+    var l_destination = "{{destination}}";
+    console.log(l_start);
+    console.log(l_destination);
+
+    function checklocation(data) {
+        var values = data.split("+");
+        var start = values[0];
+        var result = false;
+        console.log(values[2]);
+        console.log(start);
+        var destination = values[1];
+        console.log(destination);
+
+        var la = 0, la1 = 0;
+        var lo = 0, lo1 = 0;
+        var geocoder1 = new google.maps.Geocoder();
+        geocoder1.geocode({ 'address': l_start }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                console.log("start if");
+                la = results[0].geometry.location.lat();
+                lo = results[0].geometry.location.lng();
+                console.log(la, lo);
+            }
+        });
+        var geocoder2 = new google.maps.Geocoder();
+        geocoder2.geocode({ 'address': l_destination }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                console.log("dest if");
+                la1 = results[0].geometry.location.lat();
+                lo1 = results[0].geometry.location.lng();
+                console.log(la1, lo1);
+            }
+        });
+
+        var directionsService = new google.maps.DirectionsService();
+        var directionsRequest = {
+            origin: start,
+            destination: destination,
+            travelMode: google.maps.DirectionsTravelMode.DRIVING,
+            unitSystem: google.maps.UnitSystem.METRIC
+        };
+        directionsService.route(
+            directionsRequest,
+            function (response, status) {
+                if (status == google.maps.DirectionsStatus.OK) {
+                    polyline = new google.maps.Polyline({
+                        path: [],
+                        strokeColor: '#0000FF',
+                        strokeWeight: 3
+                    });
+                    var bounds = new google.maps.LatLngBounds();
+
+                    var legs = response.routes[0].legs;
+                    for (i = 0; i < legs.length; i++) {
+                        var steps = legs[i].steps;
+                        for (j = 0; j < steps.length; j++) {
+                            var nextSegment = steps[j].path;
+                            for (k = 0; k < nextSegment.length; k++) {
+                                polyline.getPath().push(nextSegment[k]);
+                                bounds.extend(nextSegment[k]);
+                            }
+                        }
+                    }
+
+                    console.log(polyline.getPath().length);
+                    console.log(la, lo, la1, lo1);
+                    var mydest = new google.maps.LatLng(la1, lo1);
+                    var mystart = new google.maps.LatLng(la, lo);
+                    la1 = lo1 = lo = la = 0;
+
+                    if (google.maps.geometry.poly.isLocationOnEdge(mystart, polyline, 10e-3) && google.maps.geometry.poly.isLocationOnEdge(mydest, polyline, 10e-3)) {
+                        window.alert("registered");
+                        result = 1;
+                    }
+                    else {
+                        window.alert("user route is not near to your start or destination location");
+                        //                 console.log("both");
+                        result = 0;
+
+                    }
+                }
+                result = check(result, values[2]);
+            });
+        return result;
+    }
+
+    function check(result, id) {
+        var name = "form" + id;
+        if (result == 1) {
+            //        window.alert("true");
+            document.getElementById(name).submit();
+            return true;
+
+        }
+        else {
+            //        window.alert("false");
+            document.forms[name].reset();
+            return false;
+        }
+
 
     }
 </script>
 
 
 <body>
-<form action="" method="post">
-    {% csrf_token %}
-<input type="date" name="lift_date" required>
-<input type="submit" name="submit">
-</form>
-{{message}}
-{% if users%}
-<table id="myTable" style="margin-top: 100px">
-        <tr class="header"><th>Rollno</th>
+
+
+
+
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header" style="margin-left:20px">
+                <h4 class="navbar-brand">G&D CORPORATE</h4>
+            </div>
+
+            <ul class="nav navbar-nav" style="margin-top:10px;">
+                <li style="margin-top:auto;"><a href="/home">Home</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"><img
+                            style="border-radius:90%;height:38px;width:38px;" src="{{pic}}" /></a>
+                    <ul class="dropdown-menu" style="background-color:grey;">
+                        <li class="dropdown-item"><a href="/profile"> <span
+                                    class="glyphicon glyphicon-user"></span>&emsp;<span
+                                    style="color:black">Profile</span></a></li>
+                        <li class="dropdown-item"><a href="/signout"><span
+                                    class="glyphicon glyphicon-log-out"></span>&emsp;<span
+                                    style="color:black">Logout</span></a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+
+
+
+
+
+
+
+    {{message}}
+    {% if users%}
+    <table id="myTable" style="margin-top: 100px">
+        <tr class="header">
+            <th>Rollno</th>
             <th style="width:60%;">name</th>
-        <th style="width:60%;">gender</th>
-        <th style="width:60%;">start location</th>
-        <th style="width:60%;">destination</th>
-        <th style="width:60%;">time</th>
-        <th style="width:60%;">no of seats</th>
+            <th style="width:60%;">gender</th>
+            <th style="width:60%;">start location</th>
+            <th style="width:60%;">destination</th>
+            <th style="width:60%;">time</th>
+            <th style="width:60%;">no of seats</th>
             <th></th>
         </tr>
         {% for id,datas in users.items%}
         <tr>
             {%for data in datas%}<td>{{data}} {% endfor %}</td>
             <td>
-                <form action="" method="post">
+                <form action="" id="form{{id}}" method="post"
+                    onsubmit="return checklocation(document.getElementById('{{id}}').value);">
                     {% csrf_token %}
                     <input type="hidden" name="rollno" value="{{datas.0}}">
-                    <button type="submit" value="{{id}}" name="request" >request</button>
+                    <input type="hidden" id="{{id}}" value="{{datas.3}}+{{datas.4}}+{{id}}">
+
+                    <input type="hidden" value="{{id}}" name="request">
+                    <button type="submit" name="submit_request">request</button>
                 </form>
             </td>
 
@@ -76,6 +224,7 @@
         {% endfor %}
 
     </table>
-{% endif %}
+    {% endif %}
 </body>
+
 </html>

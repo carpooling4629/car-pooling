@@ -1,0 +1,325 @@
+<html>
+
+<head>
+  {% load static %}
+  <title>Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.7.0/firebase-analytics.js"></script>
+<script src="{% static 'fetchlocation.js' %}"></script>
+
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+  <style type="text/css">
+
+
+
+
+    .switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+    input.hidden {
+      position: absolute;
+      left: -9999px;
+    }
+
+    .container {
+      margin-top: 5%;
+    }
+
+    .user-profile-cont {
+      width: 640px;
+      margin: 0 auto;
+    }
+    .user-profile-cont label.switch {
+    margin-top: 14px;
+    margin-right: 14px;
+}
+
+
+    #profile-image1 {
+      cursor: pointer;
+
+      width: 100px;
+      height: 100px;
+      border: 2px solid #03b1ce;
+    }
+
+    .tital {
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .bot-border {
+      border-bottom: 1px #f8f8f8 solid;
+      margin: 5px 0 5px 0
+    }
+
+    @media only screen and (max-width: 640px) {
+      .navbar-header {
+        margin-left: 0 !important;
+      }
+      .navbar-brand {
+        padding-left: 0 !important;
+      }
+      .profile {
+      position: absolute;
+      top: 0;
+      right: 20px;
+      }
+      .profile a.dropdown-toggle {
+      float: right;
+      }
+      .profile-menu li a {
+    background: rgb(185, 185, 185);
+    border-bottom: 1px solid #222;
+}
+.user-profile-cont {
+      width: 80%;
+    }
+    }
+  </style>
+</head>
+
+<body>
+
+
+  <nav class="navbar navbar-inverse">
+    <div class="container-fluid">
+      <div class="navbar-header" style="margin-left:20px">
+        <h4 class="navbar-brand">G&D CORPORATE</h4>
+      </div>
+
+      <ul class="nav navbar-nav" style="margin-top:10px;">
+        <li style="margin-top:auto;"><a href="/home">Home</a></li>
+
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right profile">
+
+        <li class="dropdown">
+
+
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+
+
+
+
+
+            <img
+              style="border-radius:90%;height:38px;width:38px;" src="{{pic}}" /></a>
+          <ul class="dropdown-menu profile-menu">
+            <li class="dropdown-item"><a href="/profile"> <span class="glyphicon glyphicon-user"></span>&emsp;<span
+                 >Profile</span></a></li>
+            <li class="dropdown-item"><a href="/signout"><span class="glyphicon glyphicon-log-out"></span>&emsp;<span
+                 >Logout</span></a></li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+
+<script language="JavaScript" type="text/javascript">
+  function checkboxActivity() {
+      var checkbox=document.getElementById("track");
+      if(checkbox.checked==true)
+      {
+          console.log("checked");
+          enable({{user.1}});
+          check({{user.1}});
+      }
+      else
+      {
+          console.log("unchecked");
+
+          disable({{user.1}});
+      }
+
+  }
+
+
+</script>
+
+  <div class="container">
+    <div class="row">
+
+      <div class="user-profile-cont">
+
+             <div class="pull-right">
+<label class="switch" >
+  <input type="checkbox" onclick="checkboxActivity()" id="track">
+  <span class="slider round"></span>
+</label>
+</div>
+<script>  var status={{status}};
+  if (status==1){
+      document.getElementById("track").checked=true;
+   checkboxActivity();
+  }
+  else{
+      document.getElementById("track").checked=false;
+  }</script>
+
+
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4>User Profile</h4>
+
+          </div>
+
+          <div class="panel-body">
+
+            <div class="box box-info">
+
+              <div class="box-body">
+                <form action="" method="post" id="image_upload" enctype="multipart/form-data">
+                  {% csrf_token %}
+                  <div class="col-sm-6">
+                    <div align="center"> <img alt="User Pic" src="{{pic}}" id="profile-image1"
+                        class="img-circle img-responsive" onclick="pic()">
+                      <input type="hidden" name="image_request" value="abc">
+                      <input id="profile-image-upload" class="hidden" type="file" name="image"
+                        onchange="profile_upload()">
+                      <div style="color:#999;">click here to change profile image</div>
+                    </div>
+                  </div>
+                </form>
+                <br>
+              </div>
+              <div class="col-sm-6">
+                <h4 style="color:#00b1b1;">{{user.0}} </h4></span>
+                <span>
+                  <p>{{user.1}}</p>
+                </span>
+
+                <a href="update/" class="material-icons">&#xe22b; </a><a href="update/"> &ensp;Update Profile</a>
+              </div>
+              <div class="clearfix"></div>
+              <hr style="margin:5px 0 5px 0;">
+
+
+              <div class="col-sm-5 col-xs-6 tital ">Name:</div>
+              <div class="col-sm-7 ">{{user.0}}</div>
+              <div class="clearfix"></div>
+              <div class="bot-border"></div>
+
+              <div class="col-sm-5 col-xs-6 tital ">Gender:</div>
+              <div class="col-sm-7">{{user.2}}</div>
+              <div class="clearfix"></div>
+              <div class="bot-border"></div>
+
+              <div class="col-sm-5 col-xs-6 tital ">Department:</div>
+              <div class="col-sm-7">{{user.3}}</div>
+              <div class="clearfix"></div>
+              <div class="bot-border"></div>
+
+              <div class="col-sm-5 col-xs-6 tital ">Mailid:</div>
+              <div class="col-sm-7">{{user.4}}</div>
+              <div class="clearfix"></div>
+              <div class="bot-border"></div>
+
+              <div class="col-sm-5 col-xs-6 tital ">Mobile Number:</div>
+              <div class="col-sm-7">{{user.6}}</div>
+
+
+              <div class="clearfix"></div>
+              <div class="bot-border"></div>
+
+              <div class="col-sm-5 col-xs-6 tital ">Address:</div>
+              <div class="col-sm-7">{{user.5}}</div>
+
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+    <script language="JavaScript" type="text/javascript">
+      function pic() {
+        document.getElementById('profile-image-upload').click();
+
+      }
+
+      function profile_upload() {
+        document.getElementById('image_upload').submit();
+      }
+    </script>
+
+
+
+
+
+
+
+
+
+  </div>
+  </div>
+</body>
+
+</html>
